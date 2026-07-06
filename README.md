@@ -4,54 +4,99 @@ Reference implementations of common agentic AI orchestration patterns in Python.
 
 ## Overview
 
-Modern LLM applications increasingly rely on multi-step agent systems rather than single prompts. This repo documents and implements common patterns used to build reliable, extensible agent architectures.
+Modern LLM applications often need multi-step orchestration, not just single prompts.
+This repository provides small, readable pattern implementations that make those orchestration strategies explicit.
+
+## Current Status
+
+The current pattern classes are intentionally minimal placeholders.
+Each class exposes a stable interface (`name` + `run(...)`) and returns a TODO message that marks where full logic should be implemented.
 
 ## Patterns Included
 
-- Planner–Executor decomposition
-- Tool-using agents
-- Reflection loops
-- Multi-agent collaboration
-- Retrieval-augmented reasoning flows
-- State-driven orchestration
-- Failure recovery patterns
+- ReAct loop (`react`)
+- Plan and execute (`plan_execute`)
+- Supervisor-worker delegation (`supervisor`)
+- Router-to-specialists (`router`)
+- Reflection and revision (`reflection`)
+
+Pattern docs live in `docs/patterns/`:
+
+- `docs/patterns/react.md`
+- `docs/patterns/plan_execute.md`
+- `docs/patterns/supervisor.md`
+- `docs/patterns/router.md`
+- `docs/patterns/reflection.md`
 
 ## Goals
 
-- Provide clear, minimal implementations of agent design patterns
-- Serve as a reference for building production-grade agent systems
-- Reduce ambiguity in multi-step LLM orchestration design
+- Provide clear, minimal pattern implementations with predictable interfaces
+- Serve as a reference for agent orchestration design choices
+- Reduce ambiguity when prototyping multi-step LLM systems
 
 ## Non-Goals
 
 - This is not a full agent framework
 - This is not tied to any specific model provider
-- This is not intended as a production deployment system
+- This is not a production deployment platform
 
-## Example Use Cases
+## Quickstart
 
-- Designing research assistants
-- Building automated workflows
-- Structuring tool-using LLM systems
-- Prototyping orchestration logic
+### Requirements
 
-## License
+- Python 3.11+
+- `uv`
 
-Apache 2.0
-
-## Development
-
-This project is structured as a modern `src/` Python package managed with `uv`.
+### Install
 
 ```bash
 uv sync --group dev
+```
+
+### Run Checks
+
+```bash
 uv run ruff check .
 uv run pyright
 uv run pytest
 ```
 
-## Patterns
+## Usage
 
-Each orchestration pattern lives in its own package under `src/agent_patterns/`.
-See `docs/patterns/README.md` for the pattern index.
-This repository focuses on *architectural patterns* rather than a single framework or product. The goal is to explore how complex behaviors can be structured from simple, reusable agent components.
+```python
+from agent_patterns import (
+	PlanExecutePattern,
+	ReActPattern,
+	ReflectionPattern,
+	RouterPattern,
+	SupervisorPattern,
+)
+
+patterns = [
+	ReActPattern(),
+	PlanExecutePattern(),
+	SupervisorPattern(),
+	RouterPattern(),
+	ReflectionPattern(),
+]
+
+for pattern in patterns:
+	print(pattern.run("example task"))
+```
+
+## Project Layout
+
+```text
+src/agent_patterns/
+  react/
+  plan_execute/
+  supervisor/
+  router/
+  reflection/
+tests/
+docs/patterns/
+```
+
+## License
+
+Apache 2.0
